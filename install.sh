@@ -22,7 +22,7 @@ else
 fi
 
 # Assuming install.sh is within the cloned or updated repository
-SOURCE_COMMAND="source $REPO_DIR/install.sh"
+SOURCE_COMMAND="source $REPO_DIR/bootstrap.sh"
 
 # Determine the profile file based on the current shell
 SHELL_NAME=$(basename $SHELL)
