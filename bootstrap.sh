@@ -1,3 +1,5 @@
-for file in ./tools/*.sh; do
+tools_dir=$(dirname $0)/tools
+
+for file in $tools_dir/*.sh; do
   source "$file"
 done
