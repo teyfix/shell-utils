@@ -13,31 +13,30 @@ RESET_BRANCH="main"
 
 # Git operations: clone, pull, or reset
 if [ -d "$REPO_DIR" ]; then
-  echo "Directory exists. Checking repository state..."
   pushd "$REPO_DIR" >/dev/null
   if ! git symbolic-ref -q HEAD >/dev/null; then
-    echo "Repository is in a detached HEAD state. Resetting..."
+    echo "Detached installation, resetting..."
     git fetch origin &&
       git reset --hard "origin/$RESET_BRANCH" &&
       git clean -df
     if [ $? -ne 0 ]; then
-      echo "Failed to reset repository. Exiting..."
+      echo "Failed to reset installation. Exiting..."
       popd >/dev/null
       exit 1
     fi
   else
-    echo "Repository is not in a detached HEAD state. Pulling updates..."
+    echo "Updating installation..."
     if ! git pull; then
-      echo "Failed to pull updates. Exiting..."
+      echo "Failed to update! Exiting..."
       popd >/dev/null
       exit 1
     fi
   fi
   popd >/dev/null
 else
-  echo "Directory does not exist. Cloning repository..."
+  echo "Installing shell-utils..."
   if ! git clone https://github.com/teyfik-on-it/shell-utils.git "$REPO_DIR"; then
-    echo "Failed to clone repository. Exiting..."
+    echo "Failed to install shell-utils! Exiting..."
     exit 1
   fi
 fi
