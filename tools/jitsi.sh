@@ -1,5 +1,5 @@
 # retrieves the prosody.cfg.lua file from the prosody container
-meet-conf() {
+prosody-conf() {
   kube-exec prosody cat /config/prosody.cfg.lua | trim-nf
 }
 
