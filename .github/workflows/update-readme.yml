@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'install.sh'
     paths-ignore:
       - 'README.md'
 
