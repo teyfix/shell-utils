@@ -5,7 +5,10 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'README.md' # Ignore changes to README.md to prevent loop
+      - 'README.md'
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
