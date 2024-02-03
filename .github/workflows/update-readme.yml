@@ -5,7 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'install.sh'
+      - install.sh
+      - bootstrap.sh
+      - tools/*
 
 permissions:
   contents: write
