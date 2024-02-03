@@ -6,8 +6,6 @@ on:
       - main
     paths:
       - 'install.sh'
-    paths-ignore:
-      - 'README.md'
 
 permissions:
   contents: write
