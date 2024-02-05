@@ -12,13 +12,13 @@ kube-name() {
 kube-exec() {
   pod_name=$(kube-name $1)
   shift
-  kubectl exec $pod_name -- "$@"
+  kubectl exec $pod_name -it -- "$@"
 }
 
 # attach to the first pod that matches the given name
 kube-attach() {
   pod_name=$(kube-name $1)
-  kubectl attach $pod_name -i -t
+  kubectl exec $pod_name -it -- /bin/sh
 }
 
 # get the logs of the first pod that matches the given name
