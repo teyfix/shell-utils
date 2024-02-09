@@ -1,6 +1,6 @@
 # Reduces repeating newlines to one from the input
 trim-nf() {
-  awk 'NF > 0 {print; p=1} NF == 0 && p {print; p=0}'
+  perl -00pe 's/\n\s*\n+/\n\n/g'
 }
 
 # filters the input to only show the lines that contain the keyword
