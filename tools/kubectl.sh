@@ -32,7 +32,7 @@ kube-logs() {
   keyword="$@"
 
   # Use the provided pod_name for selecting the pod and keyword for filtering logs
-  kubectl logs $pod_name --since=0 -f | trim-logs $keyword
+  kubectl logs $pod_name -f --tail 0 | trim-logs $keyword
 }
 
 # delete the first pod that matches the given name
