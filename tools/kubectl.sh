@@ -35,6 +35,14 @@ kube-logs() {
   kubectl logs $pod_name -f --tail 0 | trim-logs $keyword
 }
 
+kube-logs-all() {
+  pod_name=$(kube-name $1)
+  shift
+  keyword="$@"
+
+  kubectl logs $pod_name -f | trim-logs $keyword
+}
+
 # delete the first pod that matches the given name
 kube-del() {
   kubectl delete pod $(kube-name $1) | tail -f | grep "deleted" | head -1
