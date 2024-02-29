@@ -17,7 +17,25 @@ let username = execSync('git config user.name')
 username = username.length < 2 ? username[0] : username[1];
 username = username.toLowerCase();
 
-branch = `${username}/${board}-${id}-${branch}`;
+const charmap = {
+  ğ: 'g',
+  ü: 'u',
+  ş: 's',
+  ı: 'i',
+  ö: 'o',
+  ç: 'c',
+  Ğ: 'G',
+  Ü: 'U',
+  Ş: 'S',
+  İ: 'I',
+  Ö: 'O',
+  Ç: 'C',
+};
+
+branch = `${username}/${board}-${id}-${branch}`.replace(
+  /[ĞÜŞİÖÇğüşiöç]/g,
+  (m) => charmap[m],
+);
 
 execSync(`git checkout dev`);
 execSync(`git pull -p`);
