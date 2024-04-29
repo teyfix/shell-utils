@@ -42,3 +42,8 @@ trello() {
   dirname=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
   node "$dirname/trello/checkout.js" "$@"
 }
+
+chdev() {
+  git checkout dev
+  git pull -p
+}
