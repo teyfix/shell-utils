@@ -1,5 +1,5 @@
 #!/bin/bash
 
 fwd() {
-  sudo kubefwd svc --all-namespaces
+  sudo -E kubefwd svc --all-namespaces
 }
