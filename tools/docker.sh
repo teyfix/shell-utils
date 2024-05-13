@@ -11,3 +11,8 @@ docker-exec() {
 docker-attach() {
   docker-exec $1 /bin/sh
 }
+
+docker-logs() {
+  container_name=$(docker-name $1)
+  docker logs -f $container_name
+}
