@@ -8,3 +8,8 @@ trim-nf() {
 trim-logs() {
   awk -v keyword="$1" '$0 ~ keyword {print; flag=1; next} /^[0-9]|^--/ {if (flag) {flag=0; next}} flag {print}'
 }
+
+# Generates a random string of 32 characters
+secret() {
+  dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | tr -d '/+' | cut -c1-32
+}
