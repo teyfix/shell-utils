@@ -47,3 +47,13 @@ chdev() {
   git checkout dev
   git pull -p
 }
+
+chmain() {
+  git checkout main
+  git pull -p
+}
+
+chmaster() {
+  git checkout master
+  git pull -p
+}
