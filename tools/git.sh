@@ -21,12 +21,19 @@ safe-push() {
 
   # Check if the remote branch exists
   if git ls-remote --heads "$git_origin" "$git_branch" | grep -q "$git_branch"; then
-    echo "Remote branch exists. Pushing changes..."
+    echo "Remote branch exists"
+    pull
+    echo "Pushing the changes..."
     git push "$git_origin" "$git_branch"
   else
     echo "Remote branch does not exist. Pushing and setting upstream..."
     git push -u "$git_origin" "$git_branch"
   fi
+}
+
+pull() {
+  echo "Pulling the changes..."
+  git pull --ff
 }
 
 push() {
