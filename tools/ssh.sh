@@ -21,3 +21,10 @@ EOF
     fi
   done
 }
+
+ssh-public() {
+  local temp_file="$(mktemp)"
+
+  find ~/.ssh/ -name '*.pub' | xargs cat | sort | uniq | tee "$temp_file"
+  code "$temp_file"
+}
