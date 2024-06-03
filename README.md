@@ -8,11 +8,11 @@ repository so that I can setup my new environment quickly whenever I need.
 ### Install with cURL
 
 ```sh
-curl -o- https://raw.githubusercontent.com/teyfix/shell-utils/1375f4aaac1946b976a775688849a77a08528b9d/install.sh | bash
+curl -o- https://raw.githubusercontent.com/teyfix/shell-utils/e6de7e4e6ffaf66a725ed479bc16c247321bcf5d/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/1375f4aaac1946b976a775688849a77a08528b9d/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/e6de7e4e6ffaf66a725ed479bc16c247321bcf5d/install.sh | bash
 ```
