@@ -44,3 +44,26 @@ EOF
 
   code "$temp_file"
 }
+
+wg-up() {
+  if ! command -v wg-quick &>/dev/null; then
+    echo "WireGuard is not installed!"
+    return 1
+  fi
+
+  sudo -p "This script will use sudo to run wg-quick
+Enter sudo password for $(whoami): " sleep 0
+
+  if ! sudo find /etc/wireguard -name "wg0.conf" -type f -maxdepth 1 &>/dev/null; then
+    echo "Error: /etc/wireguard/wg0.conf not found!"
+    return 1
+  fi
+
+  ssh-iproute
+
+  if [[ $(sudo wg show wg0 2>/dev/null) ]]; then
+    echo "WireGuard interface wg0 is already active."
+  else
+    sudo wg-quick up wg0
+  fi
+}
