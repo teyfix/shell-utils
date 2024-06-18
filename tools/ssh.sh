@@ -67,3 +67,14 @@ Enter sudo password for $(whoami): " sleep 0
     sudo wg-quick up wg0
   fi
 }
+
+wg-down() {
+  sudo -p "This script will use sudo to run wg-quick
+Enter sudo password for $(whoami): " sleep 0
+
+  if [[ $(sudo wg show wg0 2>/dev/null) ]]; then
+    sudo wg-quick down wg0
+  else
+    echo "WireGuard interface wg0 is already inactive."
+  fi
+}
