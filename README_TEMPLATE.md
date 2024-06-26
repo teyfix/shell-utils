@@ -8,7 +8,7 @@ repository so that I can setup my new environment quickly whenever I need.
 ### Install with cURL
 
 ```sh
-curl -o- {{install_url}} | bash
+curl -fsSL {{install_url}} | bash
 ```
 
 ### Install with wget
