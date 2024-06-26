@@ -8,6 +8,7 @@ on:
       - install.sh
       - bootstrap.sh
       - tools/*
+      - README_TEMPLATE.md
 
 permissions:
   contents: write
