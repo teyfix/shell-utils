@@ -40,8 +40,7 @@ safe-push() {
 }
 
 pull() {
-  echo "Pulling the changes..."
-  git pull --ff >/dev/null
+  git pull --rebase
 }
 
 push() {
