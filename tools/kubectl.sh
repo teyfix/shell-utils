@@ -51,3 +51,17 @@ kube-follow() {
 kube-del() {
   kubectl delete pod $(kube-name $1) | tail -f | grep "deleted" | head -1
 }
+
+kube-svc() {
+  local filter="$1"
+
+  list_svc() {
+    kubectl get services -A | awk '{printf "http://%s.%s.svc.cluster.local\n", $2, $1}'
+  }
+
+  if [ -z "$filter" ]; then
+    list_svc
+  else
+    list_svc | grep "$filter"
+  fi
+}
