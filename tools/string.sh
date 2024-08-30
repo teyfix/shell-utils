@@ -13,3 +13,15 @@ trim-logs() {
 secret() {
   dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 | tr -d '/+' | cut -c1-32
 }
+
+trim-args() {
+  local input args
+  input=$(cat)
+  args=("$@")
+
+  for arg in "${args[@]}"; do
+    input=$(echo "$input" | sed -e "s/$arg//g")
+  done
+
+  echo "$input" | xargs
+}
