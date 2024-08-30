@@ -1,13 +1,11 @@
 #!/bin/bash
 
-
-
 syncapp() {
   local helmfile_app="$@"
   local should_destroy=false
 
   if [[ "$helmfile_app" = *"-d"* || "$helmfile_app" = *"--destroy"* ]]; then
-    app="$(echo "$app" | trim-arg -d)"
+    app="$(echo "$app" | trim-args -d)"
     should_destroy=true
   fi
 
