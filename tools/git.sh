@@ -57,17 +57,19 @@ trello() {
   node "$dirname/trello/checkout.js" "$@"
 }
 
+ch2() {
+  git checkout "$1"
+  pull
+}
+
 chdev() {
-  git checkout dev
-  git pull -p
+  ch2 dev
 }
 
 chmain() {
-  git checkout main
-  git pull -p
+  ch2 main
 }
 
 chmaster() {
-  git checkout master
-  git pull -p
+  ch2 master
 }
