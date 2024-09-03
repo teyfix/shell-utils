@@ -1,5 +1,7 @@
 commit() {
-  git commit -m "$@" --no-verify
+  local message="$@"
+  shift $#
+  git commit -m "$message" --no-verify
 }
 
 soft-reset() {
@@ -11,8 +13,10 @@ hard-reset() {
 }
 
 commit-all() {
+  local message="$@"
+  shift $#
   git add .
-  commit "$@"
+  commit "$message"
 }
 
 safe-push() {
