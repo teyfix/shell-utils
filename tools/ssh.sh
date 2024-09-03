@@ -78,3 +78,8 @@ Enter sudo password for $(whoami): " sleep 0
     echo "WireGuard interface wg0 is already inactive."
   fi
 }
+
+# insecure ssh
+issh() {
+  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $@
+}
