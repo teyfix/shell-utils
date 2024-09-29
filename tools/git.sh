@@ -4,6 +4,12 @@ commit() {
   git commit -m "$message" --no-verify
 }
 
+safe-commit() {
+  local message="$@"
+  shift $#
+  git commit -m "$message" 
+}
+
 soft-reset() {
   git reset --soft HEAD~1
 }
