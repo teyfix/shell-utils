@@ -83,3 +83,49 @@ chmain() {
 chmaster() {
   ch2 master
 }
+
+clone() {
+  set -euo pipefail
+
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: clone <author/repo | github url>"
+    return 1
+  fi
+
+  local input="$1"
+  local path author repo target
+
+  case "$input" in
+    git@github.com:*)
+      path="${input#git@github.com:}"
+      ;;
+    https://github.com/*)
+      path="${input#https://github.com/}"
+      ;;
+    *)
+      path="$input"
+      ;;
+  esac
+
+  path="${path%.git}"
+
+  author="${path%%/*}"
+  repo="${path##*/}"
+
+  if [[ -z "$author" || -z "$repo" ]]; then
+    echo "Invalid repository format"
+    return 1
+  fi
+
+  target="$HOME/git/$author/$repo"
+
+  mkdir -p "$(dirname "$target")"
+
+  if [[ -d "$target/.git" ]]; then
+    echo "Repository already exists at $target"
+    return 0
+  fi
+
+  git clone "https://github.com/$author/$repo.git" "$target"
+  cd "$target"
+}
