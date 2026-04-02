@@ -1,4 +1,13 @@
+check-git() {
+  if [ ! -d ".git" ]; then
+    echo "Error: .git directory not found."
+    return 1
+  fi
+}
+
 commit() {
+  check-git
+
   local message="$@"
   shift $#
   git commit -m "$message" --no-verify
@@ -26,6 +35,8 @@ commit-all() {
 }
 
 safe-push() {
+  check-git
+
   local git_origin="$(git remote | head -n1)"
   local git_branch="$(git branch --show-current)"
 
