@@ -89,3 +89,20 @@ add-uniq-line() {
   echo "$line" | tee -a "$file" >/dev/null
   echo "Added $line to $file"
 }
+
+dumprepo() {
+  local outdir="$(pwd)/.history"
+  local outfile="$outdir/.0-repo.txt"
+
+  if [ ! -d ".git" ]; then
+    echo "Error: .git directory not found."
+    return 1
+  fi
+
+  if [ ! -d "$outdir" ]; then
+    mkdir -p "$outdir"
+  fi
+
+  fd --type f --exclude '*.lock' | xargs -I% bash -c 'echo "// file: %"; cat %; echo' > "$outfile"
+  code "$outfile"
+}
