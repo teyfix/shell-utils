@@ -2,7 +2,7 @@
 tmpdump() {
   file_name=$(mktemp -t $1_XXXXXX).$2
   mkdir -p $(dirname $file_name)
-  cat >"$file_name" # This line reads from stdin and writes to the file
+  cat > "$file_name" # This line reads from stdin and writes to the file
   code $file_name
 }
 
@@ -86,13 +86,14 @@ add-uniq-line() {
     return 0
   fi
 
-  echo "$line" | tee -a "$file" >/dev/null
+  echo "$line" | tee -a "$file" > /dev/null
   echo "Added $line to $file"
 }
 
 dumprepo() {
   local outdir="$(pwd)/.history"
-  local outfile="$outdir/.0-repo.txt"
+  local outfile="$outdir/.0-repo.md"
+  local print_width="10000"
 
   if [ ! -d ".git" ]; then
     echo "Error: .git directory not found."
@@ -103,6 +104,31 @@ dumprepo() {
     mkdir -p "$outdir"
   fi
 
-  fd --type f --exclude '*.lock' | xargs -I% bash -c 'echo "// file: %"; cat %; echo' > "$outfile"
+  fd --type f --hidden --exclude .git --exclude '*.lock' | while read -r file; do
+    if [ "$(file --mime-encoding -b "$file")" = "binary" ]; then
+      continue
+    fi
+
+    ext="${file##*.}"
+
+    case "$ext" in
+      env)
+        ext="sh"
+        ;;
+      yml)
+        ext="yaml"
+        ;;
+    esac
+
+    printf '`%s`\n\n' "$file"
+    printf '`````%s\n' "$ext"
+    cat "$file"
+    printf '\n`````\n\n'
+  done > "$outfile"
+
+  if command -v bun &>/dev/null; then
+    bun x prettier --write --print-width "$print_width" "$outfile"
+  fi
+
   code "$outfile"
 }
