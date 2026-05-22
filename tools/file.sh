@@ -95,16 +95,11 @@ dumprepo() {
   local outfile="$outdir/.0-repo.md"
   local print_width="10000"
 
-  if [ ! -d ".git" ]; then
-    echo "Error: .git directory not found."
-    return 1
-  fi
-
   if [ ! -d "$outdir" ]; then
     mkdir -p "$outdir"
   fi
 
-  fd --type f --hidden --exclude .git --exclude '*.lock' | while read -r file; do
+  fd --type f --hidden --exclude .git --exclude '*.lock' --exclude go.sum | while read -r file; do
     if [ "$(file --mime-encoding -b "$file")" = "binary" ]; then
       continue
     fi
