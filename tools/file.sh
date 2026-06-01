@@ -99,7 +99,7 @@ dumprepo() {
     mkdir -p "$outdir"
   fi
 
-  fd --type f --hidden --exclude .git --exclude '*.lock' --exclude go.sum | while read -r file; do
+  fd --type f --hidden --exclude .git --exclude '*-lock.json' --exclude '*.lock' --exclude go.sum | while read -r file; do
     if [ "$(file --mime-encoding -b "$file")" = "binary" ]; then
       continue
     fi
