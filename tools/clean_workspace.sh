@@ -12,7 +12,7 @@ clean-workspace() {
   echo
 
   targets=$(find . \
-    -type d \( -name node_modules -o -name .next \) \
+    -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \) \
     -prune \
     -print)
 

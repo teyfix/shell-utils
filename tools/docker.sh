@@ -20,3 +20,7 @@ docker-logs() {
 mongo-host() {
   docker ps | grep mongo | awk '{print "127.0.0.1 "$1}' | sudo tee -a /etc/hosts
 }
+
+dc() {
+  docker compose "$@"
+}
