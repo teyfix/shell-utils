@@ -22,11 +22,11 @@ removed as single targets. `dist` directories inside `.cache/flutter/sdk` and
 ### Install with cURL
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/bc7fab8af7fc22ee19f4a970d3b04994f438da6d/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/ab7fc4c3fab72b3f781f9c32b9d8b85037395a9c/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/bc7fab8af7fc22ee19f4a970d3b04994f438da6d/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/ab7fc4c3fab72b3f781f9c32b9d8b85037395a9c/install.sh | bash
 ```
