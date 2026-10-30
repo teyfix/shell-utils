@@ -13,11 +13,11 @@ in fish.
 ### Install with cURL
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/b306576c84d5b7c9777a40c4a24fef70c9fd0efe/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/5a33688239095c9773b1d1e1264ed1a7da6615a2/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/b306576c84d5b7c9777a40c4a24fef70c9fd0efe/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/5a33688239095c9773b1d1e1264ed1a7da6615a2/install.sh | bash
 ```
