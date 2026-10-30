@@ -8,30 +8,34 @@
 # - node_modules
 # - .next
 clean-workspace() {
+  local -a targets
+  local answer
   echo "Scanning workspace under: $(pwd)"
   echo
 
-  targets=$(find . \
+  mapfile -d '' -t targets < <(find . \
+    -type d \( -name .state -o -name .git \) -prune -o \
     -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \) \
     -prune \
-    -print)
+    -print0)
+  wait "$!" || return 1
 
-  if [ -z "$targets" ]; then
+  if [ "${#targets[@]}" -eq 0 ]; then
     echo "Nothing to remove."
     return 0
   fi
 
   echo "This will remove all the following directories:"
-  echo "$targets"
+  printf '%q\n' "${targets[@]}"
   echo
   printf "Proceed with deletion? [y/N] "
-  read answer
+  read -r answer || return 1
 
   case "$answer" in
     y|Y)
       echo
       echo "Removing..."
-      printf "%s\n" "$targets" | xargs rm -rf
+      printf '%s\0' "${targets[@]}" | xargs -0 -r rm -rf --
       ;;
     *)
       echo
