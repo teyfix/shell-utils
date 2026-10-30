@@ -8,22 +8,33 @@
 # - node_modules
 # - .next
 clean-workspace() {
-  local -a targets
+  local -a targets privileged_targets
   local answer
   echo "Scanning workspace under: $(pwd)"
   echo
 
-  mapfile -d '' -t targets < <(find . \
+  local -a scan=(find . \
     -type d \( -name .state -o -name .cache -o -name .git \) -prune -o \
     -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \) \
     -prune \
     -print0)
+  mapfile -d '' -t targets < <("${scan[@]}")
   wait "$!" || {
     local scan_status=$?
     if [ "$scan_status" -gt 128 ]; then
       return "$scan_status"
     fi
-    echo "Warning: scan incomplete; continuing with accessible matches." >&2
+    echo "Scan incomplete; retrying with sudo to include inaccessible directories." >&2
+    mapfile -d '' -t privileged_targets < <(sudo "${scan[@]}")
+    if wait "$!"; then
+      targets=("${privileged_targets[@]}")
+    else
+      scan_status=$?
+      if [ "$scan_status" -gt 128 ]; then
+        return "$scan_status"
+      fi
+      echo "Warning: scan incomplete; continuing with accessible matches." >&2
+    fi
   }
 
   if [ "${#targets[@]}" -eq 0 ]; then
@@ -41,7 +52,16 @@ clean-workspace() {
     y|Y)
       echo
       echo "Removing..."
-      printf '%s\0' "${targets[@]}" | xargs -0 -r rm -rf --
+      if printf '%s\0' "${targets[@]}" | xargs -0 -r rm -rf --one-file-system --; then
+        return 0
+      else
+        local delete_status=$?
+        if [ "$delete_status" -ne 123 ]; then
+          return "$delete_status"
+        fi
+      fi
+      echo "Cleanup incomplete; retrying the confirmed paths with sudo." >&2
+      printf '%s\0' "${targets[@]}" | xargs -0 -r sudo rm -rf --one-file-system --
       ;;
     *)
       echo
