@@ -17,11 +17,11 @@ sudo; scanning retries with sudo if needed. `.git`, `.state`, and `.cache` are s
 ### Install with cURL
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/34c52187ed3a96cd0fe18008fdb9a5bce959d375/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/849330375e373c0f3fb818409f1dc1db5850559b/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/34c52187ed3a96cd0fe18008fdb9a5bce959d375/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/849330375e373c0f3fb818409f1dc1db5850559b/install.sh | bash
 ```
