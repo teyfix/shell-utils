@@ -14,14 +14,20 @@ clean-workspace() {
   echo
 
   mapfile -d '' -t targets < <(find . \
-    -type d \( -name .state -o -name .git \) -prune -o \
+    -type d \( -name .state -o -name .cache -o -name .git \) -prune -o \
     -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \) \
     -prune \
     -print0)
-  wait "$!" || return 1
+  wait "$!" || {
+    local scan_status=$?
+    if [ "$scan_status" -gt 128 ]; then
+      return "$scan_status"
+    fi
+    echo "Warning: scan incomplete; continuing with accessible matches." >&2
+  }
 
   if [ "${#targets[@]}" -eq 0 ]; then
-    echo "Nothing to remove."
+    echo "No accessible matches to remove."
     return 0
   fi
 
