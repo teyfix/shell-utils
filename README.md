@@ -17,11 +17,11 @@ scanning or deletion needs permission. `.git`, `.state`, and `.cache` are skippe
 ### Install with cURL
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/5a33688239095c9773b1d1e1264ed1a7da6615a2/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/ad98d5d08c9a827dee90e736b2b5553bdf28f2cd/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/5a33688239095c9773b1d1e1264ed1a7da6615a2/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/ad98d5d08c9a827dee90e736b2b5553bdf28f2cd/install.sh | bash
 ```
