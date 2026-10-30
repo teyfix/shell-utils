@@ -20,10 +20,17 @@ export SUDO_TEST_LOG="$test_dir/sudo.log"
 
 mkdir -p 'project with spaces/node_modules' $'project\nnewline/dist' \
   project/.next project/.expo project/.state/node_modules project/.git/dist \
-  project/.cache/dist
+  project/.cache/dist agent/home/.bun/install/cache/package/dist \
+  agent/home/.bun/bin agent/home/.bun/install/global
 touch 'project with spaces/keep'
-clean-workspace <<< n
+clean-workspace <<< n >preview
+grep -Fxq './agent/home/.bun/install/cache' preview
+if grep -Fq '/cache/package/dist' preview; then
+  echo 'Bun cache must be listed once without nested targets' >&2
+  exit 1
+fi
 test -d 'project with spaces/node_modules'
+test -d agent/home/.bun/install/cache/package/dist
 clean-workspace <<< y
 test ! -e 'project with spaces/node_modules'
 test ! -e $'project\nnewline/dist'
@@ -33,6 +40,9 @@ test -e 'project with spaces/keep'
 test -d project/.state/node_modules
 test -d project/.git/dist
 test -d project/.cache/dist
+test ! -e agent/home/.bun/install/cache
+test -d agent/home/.bun/bin
+test -d agent/home/.bun/install/global
 clean-workspace </dev/null
 grep -qx xargs "$SUDO_TEST_LOG"
 

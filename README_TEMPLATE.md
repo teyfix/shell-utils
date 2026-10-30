@@ -10,7 +10,7 @@ startup file. Fish runs the existing Bash tools through `bootstrap.fish`.
 After installation, open a new shell or run `source ~/shell-utils/bootstrap.fish`
 in fish.
 
-`clean-workspace` treats `node_modules`, `.next`, `.expo`, and `dist` as disposable
+`clean-workspace` treats `node_modules`, `.next`, `.expo`, `dist`, and `.bun/install/cache` as disposable
 and lists them before asking for deletion confirmation. Confirmed deletion uses
 sudo; scanning retries with sudo if needed. `.git`, `.state`, and `.cache` are skipped.
 

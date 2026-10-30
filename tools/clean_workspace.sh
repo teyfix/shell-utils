@@ -15,7 +15,8 @@ clean-workspace() {
 
   local -a scan=(find . \
     -type d \( -name .state -o -name .cache -o -name .git \) -prune -o \
-    -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \) \
+    -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \
+    -o -path '*/.bun/install/cache' \) \
     -prune \
     -print0)
   mapfile -d '' -t targets < <("${scan[@]}")
