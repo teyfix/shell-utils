@@ -14,7 +14,7 @@ clean-workspace() {
   echo
 
   local -a scan=(find . \
-    -type d \( -name .state -o -name .cache -o -name .git \) -prune -o \
+    -type d -name .git -prune -o \
     -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \
     -o -path '*/.bun/install/cache' \) \
     -prune \

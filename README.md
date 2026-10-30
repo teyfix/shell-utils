@@ -12,7 +12,8 @@ in fish.
 
 `clean-workspace` treats `node_modules`, `.next`, `.expo`, `dist`, and `.bun/install/cache` as disposable
 and lists them before asking for deletion confirmation. Confirmed deletion uses
-sudo; scanning retries with sudo if needed. `.git`, `.state`, and `.cache` are skipped.
+sudo; scanning retries with sudo if needed. It searches inside `.state` and `.cache`
+for these targets too, leaving other contents intact. `.git` is skipped.
 
 ### Install with cURL
 

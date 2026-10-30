@@ -23,6 +23,7 @@ mkdir -p 'project with spaces/node_modules' $'project\nnewline/dist' \
   project/.cache/dist agent/home/.bun/install/cache/package/dist \
   agent/home/.bun/bin agent/home/.bun/install/global
 touch 'project with spaces/keep'
+touch project/.state/runtime-data project/.cache/keep
 clean-workspace <<< n >preview
 grep -Fxq './agent/home/.bun/install/cache' preview
 if grep -Fq '/cache/package/dist' preview; then
@@ -37,9 +38,11 @@ test ! -e $'project\nnewline/dist'
 test ! -e project/.next
 test ! -e project/.expo
 test -e 'project with spaces/keep'
-test -d project/.state/node_modules
+test ! -e project/.state/node_modules
 test -d project/.git/dist
-test -d project/.cache/dist
+test ! -e project/.cache/dist
+test -e project/.state/runtime-data
+test -e project/.cache/keep
 test ! -e agent/home/.bun/install/cache
 test -d agent/home/.bun/bin
 test -d agent/home/.bun/install/global
@@ -99,7 +102,7 @@ chmod +x bin/rm
 clean-workspace <<< y
 test ! -e node_modules
 test -e 'project with spaces/keep'
-test -d project/.state/node_modules
+test -e project/.state/runtime-data
 grep -qx xargs "$SUDO_TEST_LOG"
 
 # Denied elevation must report failure and leave the target in place.
