@@ -11,8 +11,8 @@ After installation, open a new shell or run `source ~/shell-utils/bootstrap.fish
 in fish.
 
 `clean-workspace` treats `node_modules`, `.next`, `.expo`, `dist`, and `.bun/install/cache` as disposable
-and lists them before asking for deletion confirmation. Confirmed deletion uses
-sudo; scanning retries with sudo if needed. It searches inside `.state` and `.cache`
+and lists them before asking for deletion confirmation. Scanning and confirmed
+deletion both use sudo. It searches inside `.state` and `.cache`
 for these targets too, leaving other contents intact. `.git` is skipped.
 
 ### Install with cURL

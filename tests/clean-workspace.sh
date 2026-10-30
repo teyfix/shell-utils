@@ -49,22 +49,22 @@ test -d agent/home/.bun/install/global
 clean-workspace </dev/null
 grep -qx xargs "$SUDO_TEST_LOG"
 
-# Inaccessible directories must not block cleanup of accessible matches.
+# Denied scan elevation must stop without deleting anything.
 mkdir node_modules
-find() { printf './node_modules\0'; return 1; }
 export SUDO_TEST_FAIL=1
-clean-workspace <<< n 2>warning
+scan_status=0
+clean-workspace <<< y || scan_status=$?
+test "$scan_status" -ne 0
 test -d node_modules
-grep -q 'scan incomplete' warning
 unset SUDO_TEST_FAIL
 
 # A successful privileged scan must be included in the confirmation.
 mkdir dist
 find() {
-  printf './node_modules\0'
   if [ "${CLEAN_WORKSPACE_TEST_ELEVATED:-0}" = 1 ]; then
-    printf './dist\0'
+    printf './node_modules\0./dist\0'
   else
+    echo 'Unexpected unprivileged scan' >&2
     return 1
   fi
 }
@@ -86,6 +86,13 @@ if [ "$scan_status" -ne 130 ]; then
   echo 'Expected an interrupted scan to stop cleanup' >&2
   exit 1
 fi
+test -d node_modules
+
+# A failed privileged scan must not delete its partial results.
+find() { printf './node_modules\0'; return 1; }
+scan_status=0
+clean-workspace <<< y || scan_status=$?
+test "$scan_status" -eq 1
 test -d node_modules
 
 # Confirmed deletion uses sudo immediately, without an unprivileged attempt.

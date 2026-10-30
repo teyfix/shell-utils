@@ -8,38 +8,21 @@
 # - node_modules
 # - .next
 clean-workspace() {
-  local -a targets privileged_targets
+  local -a targets
   local answer
   echo "Scanning workspace under: $(pwd)"
   echo
 
-  local -a scan=(find . \
+  mapfile -d '' -t targets < <(sudo find . \
     -type d -name .git -prune -o \
     -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \
     -o -path '*/.bun/install/cache' \) \
     -prune \
     -print0)
-  mapfile -d '' -t targets < <("${scan[@]}")
-  wait "$!" || {
-    local scan_status=$?
-    if [ "$scan_status" -gt 128 ]; then
-      return "$scan_status"
-    fi
-    echo "Scan incomplete; retrying with sudo to include inaccessible directories." >&2
-    mapfile -d '' -t privileged_targets < <(sudo "${scan[@]}")
-    if wait "$!"; then
-      targets=("${privileged_targets[@]}")
-    else
-      scan_status=$?
-      if [ "$scan_status" -gt 128 ]; then
-        return "$scan_status"
-      fi
-      echo "Warning: scan incomplete; continuing with accessible matches." >&2
-    fi
-  }
+  wait "$!" || return $?
 
   if [ "${#targets[@]}" -eq 0 ]; then
-    echo "No accessible matches to remove."
+    echo "Nothing to remove."
     return 0
   fi
 
