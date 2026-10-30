@@ -18,11 +18,11 @@ for these targets too, leaving other contents intact. `.git` is skipped.
 ### Install with cURL
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/0e61c87609435323f3432ae0d9c846b33f6f0443/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/teyfix/shell-utils/bc7fab8af7fc22ee19f4a970d3b04994f438da6d/install.sh | bash
 ```
 
 ### Install with wget
 
 ```sh
-wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/0e61c87609435323f3432ae0d9c846b33f6f0443/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/teyfix/shell-utils/bc7fab8af7fc22ee19f4a970d3b04994f438da6d/install.sh | bash
 ```
