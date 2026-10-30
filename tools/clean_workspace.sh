@@ -15,8 +15,10 @@ clean-workspace() {
 
   mapfile -d '' -t targets < <(sudo find . \
     -type d -name .git -prune -o \
-    -type d \( -name node_modules -o -name .next -o -name .expo -o -name dist \
-    -o -path '*/.bun/install/cache' \) \
+    -type d \( -name node_modules -o -name .next -o -name .expo \
+    -o \( -name dist ! -path '*/.cache/flutter/sdk/*' ! -path '*/.cache/dart/pub/*' \) \
+    -o -path '*/.bun/install/cache' \
+    -o \( -path '*/.cache/*' \( -name bun -o -name bun-cache -o -name bun-clean-cache \) \) \) \
     -prune \
     -print0)
   wait "$!" || return $?

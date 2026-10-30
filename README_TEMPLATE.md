@@ -15,6 +15,10 @@ and lists them before asking for deletion confirmation. Scanning and confirmed
 deletion both use sudo. It searches inside `.state` and `.cache`
 for these targets too, leaving other contents intact. `.git` is skipped.
 
+Bun caches named `bun`, `bun-cache`, or `bun-clean-cache` inside `.cache` are
+removed as single targets. `dist` directories inside `.cache/flutter/sdk` and
+`.cache/dart/pub` are preserved because they belong to installed SDKs/packages.
+
 ### Install with cURL
 
 ```sh
