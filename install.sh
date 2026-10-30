@@ -12,6 +12,14 @@ install_shell_utils() {
   local RESET_BRANCH="main"
   # Define the profile file to source the shell-utils
   local PROFILE_FILE="$HOME/.$(basename "$SHELL")rc"
+  local BOOTSTRAP="bootstrap.sh"
+
+  if [ "$(basename "$SHELL")" = fish ]; then
+    PROFILE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/fish/conf.d/shell-utils.fish"
+    BOOTSTRAP="bootstrap.fish"
+    mkdir -p "$(dirname "$PROFILE_FILE")" || return 1
+    touch "$PROFILE_FILE" || return 1
+  fi
 
   if [ -z "$PROFILE_FILE" ]; then
     echo "Could not determine the profile file, this is required to install shell-utils." >&2
@@ -54,17 +62,17 @@ install_shell_utils() {
     fi
   fi
 
-  local SOURCE_COMMAND="source \"$REPO_DIR/bootstrap.sh\""
+  local SOURCE_COMMAND="source \"$REPO_DIR/$BOOTSTRAP\""
 
   # Check if the source command is already in the profile file
-  if grep -qx "$SOURCE_COMMAND" "$PROFILE_FILE"; then
+  if grep -Fxq "$SOURCE_COMMAND" "$PROFILE_FILE"; then
     echo "The source command is already in $PROFILE_FILE"
     return 0
   fi
 
   echo "$SOURCE_COMMAND" >>"$PROFILE_FILE"
 
-  if grep -qx "$SOURCE_COMMAND" "$PROFILE_FILE"; then
+  if grep -Fxq "$SOURCE_COMMAND" "$PROFILE_FILE"; then
     echo "Added source command to $PROFILE_FILE"
     return 0
   fi

@@ -1,6 +1,6 @@
 #!/bin/bash
-tools_dir="$HOME/shell-utils/tools"
+tools_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/tools"
 
-for file in $tools_dir/*.sh; do
+for file in "$tools_dir"/*.sh; do
   source "$file"
 done
