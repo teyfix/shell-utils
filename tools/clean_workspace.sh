@@ -52,16 +52,7 @@ clean-workspace() {
     y|Y)
       echo
       echo "Removing..."
-      if printf '%s\0' "${targets[@]}" | xargs -0 -r rm -rf --one-file-system --; then
-        return 0
-      else
-        local delete_status=$?
-        if [ "$delete_status" -ne 123 ]; then
-          return "$delete_status"
-        fi
-      fi
-      echo "Cleanup incomplete; retrying the confirmed paths with sudo." >&2
-      printf '%s\0' "${targets[@]}" | xargs -0 -r sudo rm -rf --one-file-system --
+      printf '%s\0' "${targets[@]}" | sudo xargs -0 -r rm -rf --one-file-system --
       ;;
     *)
       echo

@@ -34,19 +34,19 @@ test -d project/.state/node_modules
 test -d project/.git/dist
 test -d project/.cache/dist
 clean-workspace </dev/null
-test ! -e "$SUDO_TEST_LOG"
+grep -qx xargs "$SUDO_TEST_LOG"
 
 # Inaccessible directories must not block cleanup of accessible matches.
 mkdir node_modules
 find() { printf './node_modules\0'; return 1; }
 export SUDO_TEST_FAIL=1
-clean-workspace <<< y 2>warning
-test ! -d node_modules
+clean-workspace <<< n 2>warning
+test -d node_modules
 grep -q 'scan incomplete' warning
 unset SUDO_TEST_FAIL
 
 # A successful privileged scan must be included in the confirmation.
-mkdir node_modules dist
+mkdir dist
 find() {
   printf './node_modules\0'
   if [ "${CLEAN_WORKSPACE_TEST_ELEVATED:-0}" = 1 ]; then
@@ -75,11 +75,14 @@ if [ "$scan_status" -ne 130 ]; then
 fi
 test -d node_modules
 
-# Failed unprivileged deletion retries only confirmed paths via sudo.
+# Confirmed deletion uses sudo immediately, without an unprivileged attempt.
 unset -f find
 cat > bin/rm <<'BASH'
 #!/usr/bin/env bash
-if [ "${CLEAN_WORKSPACE_TEST_ELEVATED:-0}" != 1 ]; then exit 1; fi
+if [ "${CLEAN_WORKSPACE_TEST_ELEVATED:-0}" != 1 ]; then
+  echo 'Unexpected unprivileged deletion' >&2
+  exit 1
+fi
 exec /bin/rm "$@"
 BASH
 chmod +x bin/rm
@@ -87,7 +90,7 @@ clean-workspace <<< y
 test ! -e node_modules
 test -e 'project with spaces/keep'
 test -d project/.state/node_modules
-grep -qx rm "$SUDO_TEST_LOG"
+grep -qx xargs "$SUDO_TEST_LOG"
 
 # Denied elevation must report failure and leave the target in place.
 mkdir node_modules
